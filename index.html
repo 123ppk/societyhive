@@ -1,260 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Society Management</title>
-  <style>
-    :root {
-      --main: #000;
-      --bg: #fff;
-      --accent: #0077cc;
-      --border: #ccc;
-      --meeting: #e0f7fa;
-      --party: #fce4ec;
-      --children: #f3e5f5;
-      --problem: #fff3e0;
-      --retirement: #e8f5e9;
-      --birthday: #ede7f6;
-      --parking: #f9fbe7;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: var(--bg);
-      color: var(--main);
-    }
-    header {
-      background: var(--main);
-      color: var(--bg);
-      text-align: center;
-      padding: 1em;
-      font-size: 1.5em;
-    }
-    .section {
-      max-width: 800px;
-      margin: auto;
-      padding: 1em;
-    }
-    input, select, textarea, button {
-      width: 100%;
-      padding: 0.7em;
-      margin: 0.5em 0;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-    }
-    button {
-      background: var(--main);
-      color: white;
-      cursor: pointer;
-    }
-    .card {
-      padding: 1em;
-      margin: 1em 0;
-      border-radius: 8px;
-      word-break: break-word;
-    }
-    .hide { display: none; }
-    .closeBtn {
-      float: right;
-      background: red;
-      color: white;
-      padding: 0 10px;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-    #wall {
-      max-height: 400px;
-      overflow-y: auto;
-    }
-    .chips {
-      display: inline-block;
-      background: var(--accent);
-      color: white;
-      padding: 0.3em 0.6em;
-      margin: 0.2em;
-      border-radius: 20px;
-      font-size: 0.8em;
-    }
-    .headline-buttons {
-      display: flex;
-      flex-wrap: nowrap;
-      overflow-x: auto;
-      gap: 0.5em;
-      justify-content: flex-start;
-      margin-bottom: 1em;
-      padding-bottom: 0.5em;
-    }
-    .headline-buttons button {
-      background: var(--accent);
-      border: none;
-      padding: 0.4em 1em;
-      color: white;
-      border-radius: 20px;
-      font-weight: bold;
-      cursor: pointer;
-      white-space: nowrap;
-      flex-shrink: 0;
-	width:auto;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Society Management Firebase Sync</title>
+<style>
+  :root {
+    --main: #000;
+    --bg: #fff;
+    --accent: #0077cc;
+    --border: #ccc;
+    --meeting: #e0f7fa;
+    --party: #fce4ec;
+    --children: #f3e5f5;
+    --problem: #fff3e0;
+    --retirement: #e8f5e9;
+    --birthday: #ede7f6;
+    --parking: #f9fbe7;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--main);
+  }
+  header {
+    background: var(--main);
+    color: var(--bg);
+    text-align: center;
+    padding: 1em;
+    font-size: 1.5em;
+  }
+  .section {
+    max-width: 800px;
+    margin: auto;
+    padding: 1em;
+  }
+  input, select, textarea, button {
+    width: 100%;
+    padding: 0.7em;
+    margin: 0.5em 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  button {
+    background: var(--main);
+    color: white;
+    cursor: pointer;
+  }
+  .card {
+    padding: 1em;
+    margin: 1em 0;
+    border-radius: 8px;
+    word-break: break-word;
+    position: relative;
+  }
+  .closeBtn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: red;
+    color: white;
+    padding: 0 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    user-select: none;
+  }
+  #wall {
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .headline-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 0.5em;
+    justify-content: flex-start;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+  }
+  .headline-buttons button {
+    background: var(--accent);
+    border: none;
+    padding: 0.4em 1em;
+    color: white;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    width:auto;
+  }
+</style>
 </head>
 <body>
-  <header>🏢 Smart Society Management System</header>
-  <div class="section" id="loginPage">
-    <h2>Login</h2>
-    <select id="role">
-      <option value="admin">Admin</option>
-      <option value="manager">Manager</option>
-      <option value="watchman">Watchman</option>
-      <option value="family">Family</option>
+<header>🏢 Smart Society Management System</header>
+
+<div class="section" id="loginPage">
+  <h2>Login</h2>
+  <select id="role">
+    <option value="admin">Admin</option>
+    <option value="manager">Manager</option>
+    <option value="watchman">Watchman</option>
+    <option value="family">Family</option>
+  </select>
+  <input type="text" id="username" placeholder="Email" />
+  <input type="password" id="password" placeholder="Password" />
+  <button id="loginBtn">Login</button>
+</div>
+
+<div class="section hide" id="mainApp">
+  <div id="userPanel"></div>
+
+  <div id="adminPanel" class="hide">
+    <h3>Add Event / Problem / Message</h3>
+    <select id="adminCategory">
+      <option>Meeting</option>
+      <option>Party</option>
+      <option>Children Program</option>
+      <option>Problem</option>
+      <option>Retirement Event</option>
+      <option>Birthday</option>
+      <option>Parking Issue</option>
     </select>
-    <input type="text" id="username" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button onclick="login()">Login</button>
-  </div>
-  <div class="section hide" id="mainApp">
-    <div id="userPanel"></div>
-    <div id="adminPanel" class="hide">
-      <h3>Add Event / Problem / Message</h3>
-      <select id="adminCategory">
-        <option>Meeting</option>
-        <option>Party</option>
-        <option>Children Program</option>
-        <option>Problem</option>
-        <option>Retirement Event</option>
-        <option>Birthday</option>
-        <option>Parking Issue</option>
+    <input id="eventTitle" placeholder="Title or Person Name" />
+    <textarea id="eventDesc" placeholder="Description, timing, who arranged, etc..."></textarea>
+    <button id="postCardBtn">Add to Society Wall</button>
+
+    <div class="card" id="addMemberCard" style="margin-top: 2em;">
+      <h4>Add New Society Member</h4>
+      <input id="memberName" placeholder="Full Name" />
+      <input id="memberHome" placeholder="Home No" />
+      <select id="memberStatus">
+        <option>Owner</option>
+        <option>Rent</option>
+        <option>Student</option>
+        <option>Family</option>
       </select>
-      <input id="eventTitle" placeholder="Title or Person Name">
-      <textarea id="eventDesc" placeholder="Description, timing, who arranged, etc..."></textarea>
-      <button onclick="postCard()">Add to Society Wall</button>
-
-      <div class="card" id="addMemberCard">
-        <h4>Add New Society Member</h4>
-        <input id="memberName" placeholder="Full Name">
-        <input id="memberHome" placeholder="Home No">
-        <select id="memberStatus">
-          <option>Owner</option>
-          <option>Rent</option>
-          <option>Student</option>
-          <option>Family</option>
-        </select>
-        <button onclick="addMember()">Add Member</button>
-      </div>
+      <button id="addMemberBtn">Add Member</button>
     </div>
-    <div class="section">
-      <div class="headline-buttons">
-        <button onclick="filterCategory('All')">All</button>
-        <button onclick="filterCategory('Meeting')">Meeting</button>
-        <button onclick="filterCategory('Party')">Party</button>
-        <button onclick="filterCategory('Children Program')">Children</button>
-        <button onclick="filterCategory('Problem')">Problems</button>
-        <button onclick="filterCategory('Retirement Event')">Retirement</button>
-        <button onclick="filterCategory('Birthday')">Birthday</button>
-        <button onclick="filterCategory('Parking Issue')">Parking</button>
-        <button onclick="filterCategory('New Member')">New Member</button>
-      </div>
-      <h3>📋 Society Wall</h3>
-      <div id="wall"></div>
-    </div>
-    <button onclick="logout()">🚪 Logout</button>
   </div>
-  <script>
-    let societyCards = JSON.parse(localStorage.getItem('societyCards')) || [];
-    let members = JSON.parse(localStorage.getItem('members')) || [];
-    let currentRole = '';
-    let selectedFilter = 'All';
 
-    const users = {
-      admin: { email: "admin@society.com", pass: "admin123" },
-      manager: { email: "manager@society.com", pass: "manager123" },
-      watchman: { email: "watchman@society.com", pass: "watch123" },
-      family: { email: "family@society.com", pass: "family123" }
+  <div class="section">
+    <div class="headline-buttons">
+      <button data-filter="All">All</button>
+      <button data-filter="Meeting">Meeting</button>
+      <button data-filter="Party">Party</button>
+      <button data-filter="Children Program">Children</button>
+      <button data-filter="Problem">Problems</button>
+      <button data-filter="Retirement Event">Retirement</button>
+      <button data-filter="Birthday">Birthday</button>
+      <button data-filter="Parking Issue">Parking</button>
+      <button data-filter="New Member">New Member</button>
+    </div>
+    <h3>📋 Society Wall</h3>
+    <div id="wall"></div>
+  </div>
+
+  <button id="logoutBtn">🚪 Logout</button>
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAKc7A5wrLxPKUxgOO6V6KrJr-8eOVFal4",
+    authDomain: "societymanagement-720f0.firebaseapp.com",
+    projectId: "societymanagement-720f0",
+    storageBucket: "societymanagement-720f0.firebasestorage.app",
+    messagingSenderId: "746903378169",
+    appId: "1:746903378169:web:aba39a80e787ee777f6a28",
+    measurementId: "G-4FXH8NG8CT"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const users = {
+    admin: { email: "admin@society.com", pass: "admin123" },
+    manager: { email: "manager@society.com", pass: "manager123" },
+    watchman: { email: "watchman@society.com", pass: "watch123" },
+    family: { email: "family@society.com", pass: "family123" }
+  };
+
+  let currentRole = '';
+  let selectedFilter = 'All';
+
+  const loginPage = document.getElementById('loginPage');
+  const mainApp = document.getElementById('mainApp');
+  const userPanel = document.getElementById('userPanel');
+  const adminPanel = document.getElementById('adminPanel');
+  const wall = document.getElementById('wall');
+
+  const loginBtn = document.getElementById('loginBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const postCardBtn = document.getElementById('postCardBtn');
+  const addMemberBtn = document.getElementById('addMemberBtn');
+  const categorySelect = document.getElementById('adminCategory');
+  const eventTitle = document.getElementById('eventTitle');
+  const eventDesc = document.getElementById('eventDesc');
+  const memberName = document.getElementById('memberName');
+  const memberHome = document.getElementById('memberHome');
+  const memberStatus = document.getElementById('memberStatus');
+  const filterButtons = document.querySelectorAll('.headline-buttons button');
+
+  loginBtn.onclick = () => {
+    const email = document.getElementById('username').value.trim().toLowerCase();
+    const pass = document.getElementById('password').value.trim();
+    const role = document.getElementById('role').value;
+
+    if(email === users[role].email && pass === users[role].pass) {
+      currentRole = role;
+      loginPage.classList.add('hide');
+      mainApp.classList.remove('hide');
+      userPanel.innerHTML = `👤 Logged in as <b>${role.toUpperCase()}</b>`;
+      if(role === 'admin') {
+        adminPanel.classList.remove('hide');
+      } else {
+        adminPanel.classList.add('hide');
+      }
+      loadWall();
+    } else {
+      alert('❌ Invalid login! Please check email and password.');
+    }
+  };
+
+  logoutBtn.onclick = () => {
+    currentRole = '';
+    loginPage.classList.remove('hide');
+    mainApp.classList.add('hide');
+    userPanel.innerHTML = '';
+    wall.innerHTML = '';
+    if(window.unsubscribe) window.unsubscribe();
+  };
+
+  postCardBtn.onclick = async () => {
+    const cat = categorySelect.value;
+    const title = eventTitle.value.trim();
+    const desc = eventDesc.value.trim();
+
+    if(!title || !desc) {
+      alert('Please fill in title and description.');
+      return;
+    }
+
+    const card = {
+      category: cat,
+      title,
+      desc,
+      date: Date.now()
     };
 
-    function login() {
-      const email = document.getElementById("username").value.trim().toLowerCase();
-      const pass = document.getElementById("password").value.trim();
-      const role = document.getElementById("role").value;
-      if (email === users[role].email && pass === users[role].pass) {
-        currentRole = role;
-        document.getElementById("loginPage").classList.add("hide");
-        document.getElementById("mainApp").classList.remove("hide");
-        document.getElementById("userPanel").innerHTML = `👤 Logged in as <b>${role.toUpperCase()}</b>`;
-        if (role === "admin") document.getElementById("adminPanel").classList.remove("hide");
-        if (role !== "admin") document.getElementById("addMemberCard").style.display = "none";
-        else document.getElementById("addMemberCard").style.display = "block";
-        loadWall();
-      } else {
-        alert("❌ Invalid login! Please check email and password.");
-      }
+    try {
+      await addDoc(collection(db, 'societyCards'), card);
+      eventTitle.value = '';
+      eventDesc.value = '';
+    } catch(err) {
+      alert('Error adding card: ' + err.message);
+    }
+  };
+
+  addMemberBtn.onclick = async () => {
+    const name = memberName.value.trim();
+    const home = memberHome.value.trim();
+    const status = memberStatus.value;
+
+    if(!name || !home) {
+      alert('Please enter both name and home no.');
+      return;
     }
 
-    function logout() {
-      document.getElementById("mainApp").classList.add("hide");
-      document.getElementById("loginPage").classList.remove("hide");
-      document.getElementById("adminPanel").classList.add("hide");
-      document.getElementById("addMemberCard").style.display = "block";
-      document.getElementById("wall").innerHTML = '';
-      currentRole = '';
+    const memberCard = {
+      category: 'New Member',
+      title: name,
+      desc: `Home No: ${home}, Status: ${status}`,
+      date: Date.now()
+    };
+
+    try {
+      await addDoc(collection(db, 'societyCards'), memberCard);
+      memberName.value = '';
+      memberHome.value = '';
+      alert(`✅ Member ${name} added!`);
+    } catch(err) {
+      alert('Error adding member: ' + err.message);
     }
+  };
 
-    function saveToStorage() {
-      localStorage.setItem('societyCards', JSON.stringify(societyCards));
-      localStorage.setItem('members', JSON.stringify(members));
-    }
+  function loadWall() {
+    let q = query(collection(db, 'societyCards'), orderBy('date', 'desc'));
 
-    function postCard() {
-      const cat = document.getElementById("adminCategory").value;
-      const title = document.getElementById("eventTitle").value.trim();
-      const desc = document.getElementById("eventDesc").value.trim();
-      const date = new Date().toLocaleString();
+    if(window.unsubscribe) window.unsubscribe();
 
-      if (!title || !desc) {
-        alert("Please fill in title and description.");
-        return;
-      }
+    window.unsubscribe = onSnapshot(q, (snapshot) => {
+      wall.innerHTML = '';
 
-      const card = { category: cat, title, desc, date };
-      societyCards.unshift(card);
-      saveToStorage();
-      loadWall();
+      snapshot.forEach(docSnap => {
+        const c = docSnap.data();
+        const id = docSnap.id;
 
-      document.getElementById("eventTitle").value = '';
-      document.getElementById("eventDesc").value = '';
-    }
-
-    function addMember() {
-      const name = document.getElementById("memberName").value.trim();
-      const home = document.getElementById("memberHome").value.trim();
-      const status = document.getElementById("memberStatus").value;
-      if (name && home) {
-        members.push({ name, home, status });
-        const memberCard = {
-          category: "New Member",
-          title: name,
-          desc: `Home No: ${home}, Status: ${status}`,
-          date: new Date().toLocaleString()
-        };
-        societyCards.unshift(memberCard);
-        saveToStorage();
-        loadWall();
-
-        alert(`✅ Member ${name} added!`);
-        document.getElementById("memberName").value = '';
-        document.getElementById("memberHome").value = '';
-      } else {
-        alert("Please enter both name and home no.");
-      }
-    }
-
-    function loadWall() {
-      const container = document.getElementById("wall");
-      container.innerHTML = '';
-      societyCards.forEach((c, i) => {
-        if (selectedFilter === 'All' || c.category === selectedFilter) {
+        if(selectedFilter === 'All' || c.category === selectedFilter) {
           const colorClass = {
             'Meeting': '--meeting',
             'Party': '--party',
@@ -266,28 +314,43 @@
             'New Member': '--bg'
           }[c.category] || '--bg';
 
-          container.innerHTML += `
-            <div class="card" style="background-color: var(${colorClass})">
-              ${currentRole === 'admin' ? `<span class='closeBtn' onclick='removeCard(${i})'>&times;</span>` : ''}
-              <b>${c.category}:</b> ${c.title}<br>
-              ${c.desc}<br>
-              <small>${c.date}</small>
-            </div>`;
+          const div = document.createElement('div');
+          div.className = 'card';
+          div.style.backgroundColor = `var(${colorClass})`;
+
+          if(currentRole === 'admin') {
+            const delBtn = document.createElement('span');
+            delBtn.className = 'closeBtn';
+            delBtn.textContent = '×';
+            delBtn.title = 'Delete card';
+            delBtn.onclick = async () => {
+              if(confirm('Are you sure to delete this card?')) {
+                try {
+                  await deleteDoc(doc(db, 'societyCards', id));
+                } catch(err) {
+                  alert('Error deleting card: ' + err.message);
+                }
+              }
+            };
+            div.appendChild(delBtn);
+          }
+
+          div.innerHTML += `<b>${c.category}:</b> ${c.title}<br>${c.desc}<br><small>${new Date(c.date).toLocaleString()}</small>`;
+
+          wall.appendChild(div);
         }
       });
-    }
+    });
+  }
 
-    function removeCard(index) {
-      if(currentRole !== 'admin') return;
-      societyCards.splice(index, 1);
-      saveToStorage();
+  filterButtons.forEach(btn => {
+    btn.onclick = () => {
+      selectedFilter = btn.getAttribute('data-filter');
       loadWall();
-    }
+    };
+  });
 
-    function filterCategory(cat) {
-      selectedFilter = cat;
-      loadWall();
-    }
-  </script>
+</script>
+
 </body>
 </html>
