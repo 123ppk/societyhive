@@ -1,149 +1,187 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Society Management Firebase Sync</title>
-<style>
-  :root {
-    --main: #000;
-    --bg: #fff;
-    --accent: #0077cc;
-    --border: #ccc;
-    --meeting: #e0f7fa;
-    --party: #fce4ec;
-    --children: #f3e5f5;
-    --problem: #fff3e0;
-    --retirement: #e8f5e9;
-    --birthday: #ede7f6;
-    --parking: #f9fbe7;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: var(--bg);
-    color: var(--main);
-  }
-  header {
-    background: var(--main);
-    color: var(--bg);
-    text-align: center;
-    padding: 1em;
-    font-size: 1.5em;
-  }
-  .section {
-    max-width: 800px;
-    margin: auto;
-    padding: 1em;
-  }
-  input, select, textarea, button {
-    width: 100%;
-    padding: 0.7em;
-    margin: 0.5em 0;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-  }
-  button {
-    background: var(--main);
-    color: white;
-    cursor: pointer;
-  }
-  .card {
-    padding: 1em;
-    margin: 1em 0;
-    border-radius: 8px;
-    word-break: break-word;
-    position: relative;
-  }
-  .closeBtn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: red;
-    color: white;
-    padding: 0 10px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    user-select: none;
-  }
-  #wall {
-    max-height: 400px;
-    overflow-y: auto;
-  }
-  .headline-buttons {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    gap: 0.5em;
-    justify-content: flex-start;
-    margin-bottom: 1em;
-    padding-bottom: 0.5em;
-  }
-  .headline-buttons button {
-    background: var(--accent);
-    border: none;
-    padding: 0.4em 1em;
-    color: white;
-    border-radius: 20px;
-    font-weight: bold;
-    cursor: pointer;
-    white-space: nowrap;
-    flex-shrink: 0;
-    width:auto;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Society Management</title>
+  <style>
+    :root {
+      --main: #000;
+      --bg: #fff;
+      --accent: #0077cc;
+      --border: #ccc;
+      --meeting: #e0f7fa;
+      --party: #fce4ec;
+      --children: #f3e5f5;
+      --problem: #fff3e0;
+      --retirement: #e8f5e9;
+      --birthday: #ede7f6;
+      --parking: #f9fbe7;
+      --newjoin: #e1f5fe;
+      --pantaychat: #f3f3e0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--main);
+      position: relative;
+      min-height: 100vh;
+    }
+    header {
+      background: var(--main);
+      color: var(--bg);
+      text-align: center;
+      padding: 1em;
+      font-size: 1.5em;
+      position: relative;
+    }
+    .section {
+      max-width: 800px;
+      margin: auto;
+      padding: 1em;
+      position: relative;
+    }
+    input, select, textarea, button {
+      padding: 0.5em;
+      margin: 0.5em 0;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.85em;
+    }
+    input, select, textarea {
+      width: 100%;
+    }
+    button {
+      background: var(--main);
+      color: white;
+      cursor: pointer;
+      border: none;
+      border-radius: 6px;
+      padding: 0.5em 1em;
+      font-size: 0.9em;
+    }
+    button:hover {
+      background: #004a99;
+    }
+    .card {
+      padding: 1em;
+      margin: 1em 0;
+      border-radius: 8px;
+      word-break: break-word;
+      position: relative;
+    }
+    .closeBtn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      background: red;
+      color: white;
+      padding: 0 10px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      user-select: none;
+    }
+    .headline-buttons {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 0.3em;
+      padding-bottom: 0.5em;
+      margin-bottom: 0.5em;
+    }
+    .headline-buttons button {
+      background: var(--accent);
+      border: none;
+      padding: 0.3em 0.8em;
+      font-size: 0.75em;
+      color: white;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .hide { display: none; }
+    #postLogoutContainer {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 1em;
+      margin-bottom: 1em;
+      flex-wrap: wrap;
+    }
+    #postCardBtn {
+      flex-grow: 1;
+      max-width: 200px;
+    }
+    #logoutBtn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      background: #000;
+      padding: 0.5em 1em;
+      font-size: 0.9em;
+      cursor: pointer;
+      color: white;
+      border-radius: 6px;
+      border: none;
+      z-index: 1000;
+      display: none;
+      transition: background-color 0.3s ease;
+    }
+    #logoutBtn:hover {
+      background: #222;
+    }
+    #wall {
+      max-height: 60vh;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+  </style>
 </head>
 <body>
-<header>🏢 Smart Society Management System</header>
+  <header>Smart Society Management</header>
 
-<div class="section" id="loginPage">
-  <h2>Login</h2>
-  <select id="role">
-    <option value="admin">Admin</option>
-    <option value="manager">Manager</option>
-    <option value="watchman">Watchman</option>
-    <option value="family">Family</option>
-  </select>
-  <input type="text" id="username" placeholder="Email" />
-  <input type="password" id="password" placeholder="Password" />
-  <button id="loginBtn">Login</button>
-</div>
+  <button id="logoutBtn" type="button" title="Logout">Logout</button>
 
-<div class="section hide" id="mainApp">
-  <div id="userPanel"></div>
-
-  <div id="adminPanel" class="hide">
-    <h3>Add Event / Problem / Message</h3>
-    <select id="adminCategory">
-      <option>Meeting</option>
-      <option>Party</option>
-      <option>Children Program</option>
-      <option>Problem</option>
-      <option>Retirement Event</option>
-      <option>Birthday</option>
-      <option>Parking Issue</option>
+  <div class="section" id="loginPage">
+    <h2>Login</h2>
+    <select id="role">
+      <option value="admin">Admin</option>
+      <option value="family">Family</option>
     </select>
-    <input id="eventTitle" placeholder="Title or Person Name" />
-    <textarea id="eventDesc" placeholder="Description, timing, who arranged, etc..."></textarea>
-    <button id="postCardBtn">Add to Society Wall</button>
-
-    <div class="card" id="addMemberCard" style="margin-top: 2em;">
-      <h4>Add New Society Member</h4>
-      <input id="memberName" placeholder="Full Name" />
-      <input id="memberHome" placeholder="Home No" />
-      <select id="memberStatus">
-        <option>Owner</option>
-        <option>Rent</option>
-        <option>Student</option>
-        <option>Family</option>
-      </select>
-      <button id="addMemberBtn">Add Member</button>
-    </div>
+    <input type="text" id="username" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <button id="loginBtn">Login</button>
   </div>
 
-  <div class="section">
+  <div class="section hide" id="mainApp">
+    <div id="userPanel"></div>
+
+    <div id="adminPanel" class="hide">
+      <h3>Add Event / Message</h3>
+      <select id="adminCategory">
+        <option>Meeting</option>
+        <option>Party</option>
+        <option>Children Program</option>
+        <option>Problem</option>
+        <option>Retirement Event</option>
+        <option>Birthday</option>
+        <option>Parking Issue</option>
+        <option>New Join</option>
+        <option>suskruti</option>
+        <option>All</option>
+      </select>
+      <input id="eventTitle" placeholder="Title" />
+      <textarea id="eventDesc" placeholder="Details..."></textarea>
+      <div id="postLogoutContainer">
+        <button id="postCardBtn" type="button">Post</button>
+      </div>
+    </div>
+
     <div class="headline-buttons">
       <button data-filter="All">All</button>
       <button data-filter="Meeting">Meeting</button>
@@ -153,14 +191,12 @@
       <button data-filter="Retirement Event">Retirement</button>
       <button data-filter="Birthday">Birthday</button>
       <button data-filter="Parking Issue">Parking</button>
-      <button data-filter="New Member">New Member</button>
+      <button data-filter="New Join">New Join</button>
+      <button data-filter="Suskruti">Suskruti</button>
     </div>
-    <h3>📋 Society Wall</h3>
+
     <div id="wall"></div>
   </div>
-
-  <button id="logoutBtn">🚪 Logout</button>
-</div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -170,10 +206,9 @@
     apiKey: "AIzaSyAKc7A5wrLxPKUxgOO6V6KrJr-8eOVFal4",
     authDomain: "societymanagement-720f0.firebaseapp.com",
     projectId: "societymanagement-720f0",
-    storageBucket: "societymanagement-720f0.firebasestorage.app",
+    storageBucket: "societymanagement-720f0.appspot.com",
     messagingSenderId: "746903378169",
-    appId: "1:746903378169:web:aba39a80e787ee777f6a28",
-    measurementId: "G-4FXH8NG8CT"
+    appId: "1:746903378169:web:aba39a80e787ee777f6a28"
   };
 
   const app = initializeApp(firebaseConfig);
@@ -181,176 +216,130 @@
 
   const users = {
     admin: { email: "admin@society.com", pass: "admin123" },
-    manager: { email: "manager@society.com", pass: "manager123" },
-    watchman: { email: "watchman@society.com", pass: "watch123" },
     family: { email: "family@society.com", pass: "family123" }
   };
-
-  let currentRole = '';
-  let selectedFilter = 'All';
 
   const loginPage = document.getElementById('loginPage');
   const mainApp = document.getElementById('mainApp');
   const userPanel = document.getElementById('userPanel');
   const adminPanel = document.getElementById('adminPanel');
   const wall = document.getElementById('wall');
-
-  const loginBtn = document.getElementById('loginBtn');
   const logoutBtn = document.getElementById('logoutBtn');
-  const postCardBtn = document.getElementById('postCardBtn');
-  const addMemberBtn = document.getElementById('addMemberBtn');
-  const categorySelect = document.getElementById('adminCategory');
-  const eventTitle = document.getElementById('eventTitle');
-  const eventDesc = document.getElementById('eventDesc');
-  const memberName = document.getElementById('memberName');
-  const memberHome = document.getElementById('memberHome');
-  const memberStatus = document.getElementById('memberStatus');
-  const filterButtons = document.querySelectorAll('.headline-buttons button');
 
-  loginBtn.onclick = () => {
+  let currentRole = '';
+  let selectedFilter = 'All';
+
+  function showApp(role) {
+    currentRole = role;
+    localStorage.setItem("loggedInRole", role);
+    loginPage.classList.add('hide');
+    mainApp.classList.remove('hide');
+    userPanel.innerHTML = `👤 Logged in as <b>${role.toUpperCase()}</b>`;
+    adminPanel.classList.toggle('hide', role !== 'admin');
+    logoutBtn.style.display = 'inline-block';
+    loadWall();
+  }
+
+  document.getElementById('loginBtn').onclick = () => {
     const email = document.getElementById('username').value.trim().toLowerCase();
     const pass = document.getElementById('password').value.trim();
     const role = document.getElementById('role').value;
-
     if(email === users[role].email && pass === users[role].pass) {
-      currentRole = role;
-      loginPage.classList.add('hide');
-      mainApp.classList.remove('hide');
-      userPanel.innerHTML = `👤 Logged in as <b>${role.toUpperCase()}</b>`;
-      if(role === 'admin') {
-        adminPanel.classList.remove('hide');
-      } else {
-        adminPanel.classList.add('hide');
-      }
-      loadWall();
+      showApp(role);
     } else {
-      alert('❌ Invalid login! Please check email and password.');
+      alert('❌ Invalid login');
     }
   };
 
   logoutBtn.onclick = () => {
     currentRole = '';
+    localStorage.removeItem("loggedInRole");
     loginPage.classList.remove('hide');
     mainApp.classList.add('hide');
-    userPanel.innerHTML = '';
     wall.innerHTML = '';
+    logoutBtn.style.display = 'none';
     if(window.unsubscribe) window.unsubscribe();
   };
 
-  postCardBtn.onclick = async () => {
-    const cat = categorySelect.value;
-    const title = eventTitle.value.trim();
-    const desc = eventDesc.value.trim();
-
-    if(!title || !desc) {
-      alert('Please fill in title and description.');
-      return;
-    }
-
-    const card = {
-      category: cat,
-      title,
-      desc,
-      date: Date.now()
-    };
+  document.getElementById('postCardBtn').onclick = async () => {
+    const title = document.getElementById('eventTitle').value.trim();
+    const desc = document.getElementById('eventDesc').value.trim();
+    let category = document.getElementById('adminCategory').value;
+    if(!title || !desc) return alert("Fill title and description");
+    if(category === 'All') category = 'General';
 
     try {
-      await addDoc(collection(db, 'societyCards'), card);
-      eventTitle.value = '';
-      eventDesc.value = '';
-    } catch(err) {
-      alert('Error adding card: ' + err.message);
-    }
-  };
-
-  addMemberBtn.onclick = async () => {
-    const name = memberName.value.trim();
-    const home = memberHome.value.trim();
-    const status = memberStatus.value;
-
-    if(!name || !home) {
-      alert('Please enter both name and home no.');
-      return;
-    }
-
-    const memberCard = {
-      category: 'New Member',
-      title: name,
-      desc: `Home No: ${home}, Status: ${status}`,
-      date: Date.now()
-    };
-
-    try {
-      await addDoc(collection(db, 'societyCards'), memberCard);
-      memberName.value = '';
-      memberHome.value = '';
-      alert(`✅ Member ${name} added!`);
-    } catch(err) {
-      alert('Error adding member: ' + err.message);
+      await addDoc(collection(db, 'societyCards'), {
+        title, desc, category, date: Date.now()
+      });
+      document.getElementById('eventTitle').value = '';
+      document.getElementById('eventDesc').value = '';
+      setTimeout(() => { wall.scrollTop = wall.scrollHeight; }, 300);
+    } catch (error) {
+      alert('Error posting card: ' + error.message);
     }
   };
 
   function loadWall() {
-    let q = query(collection(db, 'societyCards'), orderBy('date', 'desc'));
-
     if(window.unsubscribe) window.unsubscribe();
-
-    window.unsubscribe = onSnapshot(q, (snapshot) => {
+    const q = query(collection(db, 'societyCards'), orderBy('date', 'desc'));
+    window.unsubscribe = onSnapshot(q, snapshot => {
       wall.innerHTML = '';
-
       snapshot.forEach(docSnap => {
         const c = docSnap.data();
         const id = docSnap.id;
-
-        if(selectedFilter === 'All' || c.category === selectedFilter) {
-          const colorClass = {
-            'Meeting': '--meeting',
-            'Party': '--party',
-            'Children Program': '--children',
-            'Problem': '--problem',
-            'Retirement Event': '--retirement',
-            'Birthday': '--birthday',
-            'Parking Issue': '--parking',
-            'New Member': '--bg'
-          }[c.category] || '--bg';
-
+        if(selectedFilter === 'All' || selectedFilter === c.category || (selectedFilter === 'All' && c.category === 'General')) {
+          const colorMap = {
+            'Meeting': '--meeting', 'Party': '--party', 'Children Program': '--children',
+            'Problem': '--problem', 'Retirement Event': '--retirement',
+            'Birthday': '--birthday', 'Parking Issue': '--parking',
+            'New Join': '--newjoin', 'new join family': '--new join family',
+            'General': '--bg'
+          };
           const div = document.createElement('div');
           div.className = 'card';
-          div.style.backgroundColor = `var(${colorClass})`;
+          div.style.backgroundColor = `var(${colorMap[c.category] || '--bg'})`;
 
           if(currentRole === 'admin') {
-            const delBtn = document.createElement('span');
-            delBtn.className = 'closeBtn';
-            delBtn.textContent = '×';
-            delBtn.title = 'Delete card';
-            delBtn.onclick = async () => {
-              if(confirm('Are you sure to delete this card?')) {
+            const btn = document.createElement('span');
+            btn.className = 'closeBtn';
+            btn.textContent = '×';
+            btn.title = "Delete";
+            btn.onclick = async () => {
+              if(confirm("Delete this card?")) {
                 try {
                   await deleteDoc(doc(db, 'societyCards', id));
-                } catch(err) {
-                  alert('Error deleting card: ' + err.message);
+                } catch (error) {
+                  alert('Error deleting card: ' + error.message);
                 }
               }
             };
-            div.appendChild(delBtn);
+            div.appendChild(btn);
           }
 
-          div.innerHTML += `<b>${c.category}:</b> ${c.title}<br>${c.desc}<br><small>${new Date(c.date).toLocaleString()}</small>`;
+          const content = `<b>${c.category}:</b> ${c.title}<br>${c.desc}<br><small>${new Date(c.date).toLocaleString()}</small>`;
+          const contentWrapper = document.createElement('div');
+          contentWrapper.innerHTML = content;
+          div.appendChild(contentWrapper);
 
           wall.appendChild(div);
         }
       });
+      setTimeout(() => {
+        wall.scrollTop = wall.scrollHeight;
+      }, 100);
     });
   }
 
-  filterButtons.forEach(btn => {
+  document.querySelectorAll('.headline-buttons button').forEach(btn => {
     btn.onclick = () => {
       selectedFilter = btn.getAttribute('data-filter');
       loadWall();
     };
   });
 
+  const savedRole = localStorage.getItem("loggedInRole");
+  if(savedRole && users[savedRole]) showApp(savedRole);
 </script>
-
 </body>
 </html>
